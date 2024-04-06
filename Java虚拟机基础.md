@@ -1,4 +1,4 @@
-# Java虚拟机原理
+# Java虚拟机基础
 
 ## 1. 初识 JVM
 
@@ -20,7 +20,7 @@ JVM 包含内存管理、解释执行虚拟机指令、即时编译三大功能�
 
 ### 2.1 Java 虚拟机的组成
 
-<img src="Java虚拟机原理/image-20240323114523478.png" alt="image-20240323114523478" style="zoom:33%;" />
+<img src="Java虚拟机基础/image-20240323114523478.png" alt="image-20240323114523478" style="zoom:33%;" />
 
 ### 2.2 字节码文件的组成
 
@@ -37,7 +37,7 @@ JVM 包含内存管理、解释执行虚拟机指令、即时编译三大功能�
 
 深度理解字节码文件的重要组成部分
 
-<img src="Java虚拟机原理/image-20240323115521587.png" alt="image-20240323115521587" style="zoom: 33%;" />
+<img src="Java虚拟机基础/image-20240323115521587.png" alt="image-20240323115521587" style="zoom: 33%;" />
 
 字节码文件的组成部分—— Magic 魔数
 
@@ -75,7 +75,7 @@ JVM 包含内存管理、解释执行虚拟机指令、即时编译三大功能�
 
 字节码文件的组成——基础信息
 
-<img src="Java虚拟机原理/image-20240323123055380.png" alt="image-20240323123055380" style="zoom:33%;" />
+<img src="Java虚拟机基础/image-20240323123055380.png" alt="image-20240323123055380" style="zoom:33%;" />
 
 
 
@@ -132,7 +132,7 @@ arthas
    - 服务器上使用 javap 命令直接查看，也可以通过 arthas 的dump 命令导出字节码文件再查看文件，还可以使用 jad 命令反编译出源代码。
 2. 字节码文件的核心组成有哪些？
 
-<img src="Java虚拟机原理/image-20240323115521587.png" alt="image-20240323115521587" style="zoom: 33%;" />
+<img src="Java虚拟机基础/image-20240323115521587.png" alt="image-20240323115521587" style="zoom: 33%;" />
 
 
 
@@ -471,7 +471,7 @@ Java 中的默认类加载器
 
 - 双亲委派机制的核心代码就位于 loadClass 方法中。
 
-  <img src="Java虚拟机原理/image-20240324131046766.png" alt="image-20240324131046766" style="zoom:33%;" />
+  <img src="Java虚拟机基础/image-20240324131046766.png" alt="image-20240324131046766" style="zoom:33%;" />
 
 - 阅读双亲委派机制的核心代码，分析如何通过自定义的类加载器打破双亲委派机制。
 
@@ -965,15 +965,15 @@ public static void main(String[] args) {
 
    JDK6：方法区存放在堆里面，使用永久代作为这块内存区域的实现，字符串常量池存放在方法区里面。
 
-   <img src="Java虚拟机原理/image-20240328164009742.png" alt="image-20240328164009742" style="zoom:33%;" />
+   <img src="Java虚拟机基础/image-20240328164009742.png" alt="image-20240328164009742" style="zoom:33%;" />
 
    JDK7：字符串常量池从永久代转移到堆中，单独占有一块空间。
 
-   <img src="Java虚拟机原理/image-20240328164836820.png" alt="image-20240328164836820" style="zoom:33%;" />
+   <img src="Java虚拟机基础/image-20240328164836820.png" alt="image-20240328164836820" style="zoom:33%;" />
 
    JDK8：永久代被移除，方法区使用元空间实现，元空间是属于直接内存的一块区域，字符串常量池依旧在堆中。
 
-   <img src="Java虚拟机原理/image-20240328165033248.png" alt="image-20240328165033248" style="zoom:33%;" />
+   <img src="Java虚拟机基础/image-20240328165033248.png" alt="image-20240328165033248" style="zoom:33%;" />
 
    
 
@@ -1197,7 +1197,7 @@ public class SoftReferenceDemo {
 
 案例：使用软引用实现学生数据的缓存
 
-<img src="Java虚拟机原理/image-20240329120026038.png" alt="image-20240329120026038" style="zoom:33%;" />
+<img src="Java虚拟机基础/image-20240329120026038.png" alt="image-20240329120026038" style="zoom:33%;" />
 
 ```java
 public class StudentCache {
@@ -1409,13 +1409,13 @@ Java 垃圾回收过程会通过单独的 GC 线程来完成，但是不管使�
 
    最大暂停时间指的是所有在垃圾回收过程中的 STW 时间最大值。比如如下的图中，黄色部分的 STW 就是最大暂停时间，显而易见上面的图比下面的图拥有更少的最大暂停时间。最大暂停时间越短，用户使用系统时受到的影响就越短。
 
-   <img src="Java虚拟机原理/image-20240329192810965.png" alt="image-20240329192810965" style="zoom:33%;" />
+   <img src="Java虚拟机基础/image-20240329192810965.png" alt="image-20240329192810965" style="zoom:33%;" />
 
 3. 堆使用效率
 
    不同垃圾回收算法，对堆内存的使用方式是不同的。比如标记清除算法，可以使用完整的堆内存，而复制算法会将堆内存一分为二，每次只使用一半内存。从堆使用效率上来说，标记清除算法要优于复制算法。
 
-   <img src="Java虚拟机原理/image-20240329193104902.png" alt="image-20240329193104902" style="zoom:33%;" />
+   <img src="Java虚拟机基础/image-20240329193104902.png" alt="image-20240329193104902" style="zoom:33%;" />
 
 上述三种评价标准：堆使用效率、吞吐量、最大暂停时间不可兼得。
 
@@ -1533,7 +1533,7 @@ arthas 查看分代之后的内存情况
 
 调整内存区域的大小
 
-<img src="Java虚拟机原理/image-20240329214207925.png" alt="image-20240329214207925" style="zoom:33%;" />
+<img src="Java虚拟机基础/image-20240329214207925.png" alt="image-20240329214207925" style="zoom:33%;" />
 
 老年代的大小可以用当前堆大小减去新生代大小计算得到，例如参数 `-Xms60m -Xmn20m -Xmx60m` 计算出来的老年代大小就是 40m，加上参数 `-XX:SurvivorRatio=3` 可以计算出伊甸园区和幸存区的大小分别为 12m 和 4m、4m
 
@@ -1657,7 +1657,7 @@ public class GcDemo {
 
 具体的关系图如下：
 
-<img src="Java虚拟机原理/image-20240330100559723.png" alt="image-20240330100559723" style="zoom:33%;" />
+<img src="Java虚拟机基础/image-20240330100559723.png" alt="image-20240330100559723" style="zoom:33%;" />
 
 
 
@@ -1844,7 +1844,7 @@ JDK9 之后强烈建议使用 G1 垃圾回收器。
 
 G1 出现之前的垃圾回收器，内存结构一般是连续的，如下图
 
-<img src="Java虚拟机原理/image-20240330134144748.png" alt="image-20240330134144748" style="zoom:33%;" />
+<img src="Java虚拟机基础/image-20240330134144748.png" alt="image-20240330134144748" style="zoom:33%;" />
 
 G1 的整个堆会被划分成多个大小相等的区域，称之为 Region，区域不要求是连续的。分为 Eden、Survivor、Old 区。Region 的大小通过堆空间大小 / 2048 计算得到，也可以通过参数 `-XX:G1HeapRegionSize=32m` 指定 (32m 指定 region 大小为 32M)，Region size 必须是 2 的指数幂，取值范围 1M - 32M。
 
@@ -1882,7 +1882,7 @@ G1 垃圾回收有两种方式：
 
 - G1 对老年代的清理会选择存活度最低的区域来进行回收，这样可以保证回收效率最高，这也是 G1 (Garbage first) 名称的由来。
 
-  <img src="Java虚拟机原理/image-20240330155329592.png" alt="image-20240330155329592" style="zoom:33%;" />
+  <img src="Java虚拟机基础/image-20240330155329592.png" alt="image-20240330155329592" style="zoom:33%;" />
 
 - 最后清理阶段使用复制算法，不会产生内存碎片。
 
@@ -1953,10 +1953,3 @@ JDK9 之后：G1 (默认)
    Parallel Scavenge 和 Parallel Old 组合：吞吐量高，适用于后台进行大量数据操作
 
    G1：适用于较大的堆，具有可控的暂停时间
-
-
-
-
-
-
-
