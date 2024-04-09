@@ -1,5 +1,7 @@
 package com.entropy.agent;
 
+import com.entropy.agent.command.MemoryCommand;
+
 import java.lang.instrument.Instrumentation;
 
 public class AgentMain {
@@ -9,6 +11,7 @@ public class AgentMain {
     }
 
     public static void agentmain(String agentArgs, Instrumentation inst) {
-        System.out.println("agentmain执行了....");
+        MemoryCommand.printMemory();
+        MemoryCommand.heapDump();
     }
 }
