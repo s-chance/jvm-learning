@@ -1,5 +1,6 @@
 package com.entropy.agent.command;
 
+import com.entropy.agent.enhancer.AsmEnhancer;
 import org.jd.core.v1.ClassFileToJavaSourceDecompiler;
 import org.jd.core.v1.api.loader.Loader;
 import org.jd.core.v1.api.loader.LoaderException;
@@ -138,5 +139,41 @@ public class ClassCommand {
 
         decompiler.decompile(loader, printer, className);
 
+    }
+
+    // 对类进行增强，统计执行时间
+    public static void enhanceClass(Instrumentation inst) {
+        System.out.println("请输入类名:");
+        // 手动输入类名
+        Scanner scanner = new Scanner(System.in);
+        String className = scanner.next();
+
+        // 根据类名找到class对象
+        Class[] allLoadedClasses = inst.getAllLoadedClasses();
+        for (Class allLoadedClass : allLoadedClasses) {
+            if (allLoadedClass.getName().equals(className)) {
+                ClassFileTransformer transformer = new ClassFileTransformer() {
+                    @Override
+                    public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
+                        // 通过ASM对类进行增强，返回字节码信息
+                        byte[] bytes = AsmEnhancer.enhanceClass(classfileBuffer);
+                        return bytes;
+                    }
+                };
+
+                // 1.添加转换器
+                inst.addTransformer(transformer, true);
+
+                // 2.手动触发转换
+                try {
+                    inst.retransformClasses(allLoadedClass);
+                } catch (UnmodifiableClassException e) {
+                    throw new RuntimeException(e);
+                } finally {
+                    // 3.删除转换器
+                    inst.removeTransformer(transformer);
+                }
+            }
+        }
     }
 }

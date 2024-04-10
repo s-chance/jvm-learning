@@ -18,5 +18,6 @@ public class AgentMain {
         ThreadCommand.printThreadInfo();
         ClassCommand.printAllClassLoader(inst);
         ClassCommand.printClassSourceCode(inst);
+        ClassCommand.enhanceClass(inst);
     }
 }
