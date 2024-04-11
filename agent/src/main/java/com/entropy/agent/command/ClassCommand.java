@@ -1,6 +1,13 @@
 package com.entropy.agent.command;
 
 import com.entropy.agent.enhancer.AsmEnhancer;
+import com.entropy.agent.enhancer.MyAdvice;
+import net.bytebuddy.agent.builder.AgentBuilder;
+import net.bytebuddy.asm.Advice;
+import net.bytebuddy.description.type.TypeDescription;
+import net.bytebuddy.dynamic.DynamicType;
+import net.bytebuddy.matcher.ElementMatchers;
+import net.bytebuddy.utility.JavaModule;
 import org.jd.core.v1.ClassFileToJavaSourceDecompiler;
 import org.jd.core.v1.api.loader.Loader;
 import org.jd.core.v1.api.loader.LoaderException;
@@ -152,7 +159,23 @@ public class ClassCommand {
         Class[] allLoadedClasses = inst.getAllLoadedClasses();
         for (Class allLoadedClass : allLoadedClasses) {
             if (allLoadedClass.getName().equals(className)) {
-                ClassFileTransformer transformer = new ClassFileTransformer() {
+
+                // 使用bytebuddy增强类
+                new AgentBuilder.Default()
+                        // 禁止bytebuddy处理时修改类名
+                        .disableClassFormatChanges()
+                        // 处理时使用retransform增强
+                        .with(AgentBuilder.RedefinitionStrategy.RETRANSFORMATION)
+                        // 打印错误日志
+                        .with(new AgentBuilder.Listener.WithTransformationsOnly(AgentBuilder.Listener.StreamWriting.toSystemOut()))
+                        // 匹配哪些类
+                        .type(ElementMatchers.named(className))
+                        // 增强，使用MyAdvice通知，对所有方法都进行增强
+                        .transform((builder, typeDescription, classLoader, javaModule, protectionDomain) ->
+                                builder.visit(Advice.to(MyAdvice.class).on(ElementMatchers.any())))
+                        .installOn(inst);
+
+                /*ClassFileTransformer transformer = new ClassFileTransformer() {
                     @Override
                     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
                         // 通过ASM对类进行增强，返回字节码信息
@@ -172,7 +195,7 @@ public class ClassCommand {
                 } finally {
                     // 3.删除转换器
                     inst.removeTransformer(transformer);
-                }
+                }*/
             }
         }
     }
