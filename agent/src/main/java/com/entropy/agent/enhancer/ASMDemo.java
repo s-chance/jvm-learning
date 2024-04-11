@@ -28,7 +28,7 @@ public class ASMDemo {
 
                 MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions);
                 // 返回自定义的MethodVisitor
-                MethodVisitor methodVisitor = new MethodVisitor(this.api, mv) {
+                return new MethodVisitor(this.api, mv) {
                     // 修改字节码指令
 
                     @Override
@@ -37,8 +37,6 @@ public class ASMDemo {
                         visitInsn(ICONST_0);
                     }
                 };
-
-                return super.visitMethod(access, name, descriptor, signature, exceptions);
             }
         };
         classReader.accept(classVisitor, 0);
